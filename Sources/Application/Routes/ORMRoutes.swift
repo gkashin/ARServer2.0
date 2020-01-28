@@ -26,11 +26,45 @@ func initializeORMRoutes(app: App) {
         Log.error("Failed to create table: \(error)")
     }
     
-    // Initiallize User routes
+    // Initialize Object routes
+    app.router.post("/object", handler: app.createObject)
+    app.router.get("/objects/all", handler: app.findObjects)
+    app.router.get("/objects/user", handler: app.findObjectsForUser(userId:completion:))
+    app.router.put("/object", handler: app.updateObject)
+    app.router.delete("/object", handler: app.removeObject)
+    
+    // Initialize User routes
     app.router.post("/user", handler: app.createUser)
     app.router.get("/users/all", handler: app.findUsers)
     app.router.put("/user", handler: app.updateUser)
     app.router.delete("/user", handler: app.removeUser)
+}
+
+// MARK: - Object Routes
+extension App {
+    func createObject(object: Object, completion: @escaping (Object?, RequestError?) -> Void) {
+        object.save(completion)
+    }
+    
+    func findObjects(completion: @escaping ([Object]?, RequestError?) -> Void) {
+        Object.findAll(completion)
+    }
+    
+    func findObjectsForUser(userId: Int, completion: @escaping ([Object]?, RequestError?) -> Void) {
+        Object.findAllForUser(id: userId, completion: completion)
+    }
+    
+    func removeObject(id: Int, completion: @escaping (RequestError?) -> Void) {
+        Object.delete(id: id, completion)
+    }
+    
+    func updateObject(id: Int, object: Object, completion: @escaping (Object?, RequestError?) -> Void) {
+        guard let objectId = object.id, id == objectId else {
+            completion(nil, .notFound)
+            return
+        }
+        object.update(id: id, completion)
+    }
 }
 
 // MARK: - User Routes

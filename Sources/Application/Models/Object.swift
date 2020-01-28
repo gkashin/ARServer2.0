@@ -10,4 +10,19 @@ struct Object: Codable {
     let date: Date
 }
 
-extension Object: Model {}
+extension Object: Model {
+    public static func findAllForUser(id: Int, completion: @escaping ([Object]?, RequestError?) -> Void) {
+        let objects: Table
+        
+        do {
+            objects = try Object.getTable()
+        } catch {
+            Log.error(error.localizedDescription)
+            completion(nil, .internalServerError)
+            return
+        }
+        
+        let query = Select(from: objects).where("userId = ?")
+        Object.executeQuery(query: query, parameters: [id], completion)
+    }
+}

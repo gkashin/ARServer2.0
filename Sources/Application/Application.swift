@@ -9,6 +9,7 @@ public class App {
 
     func postInit() throws {
         initializeORMRoutes(app: self)
+        initializeSessionRoutes(app: self)
         KituraOpenAPI.addEndpoints(to: router)
     }
 
