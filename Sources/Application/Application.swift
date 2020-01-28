@@ -8,6 +8,7 @@ public class App {
     public init() throws {}
 
     func postInit() throws {
+        initializeBasicAuthRoutes(app: self)
         initializeORMRoutes(app: self)
         initializeSessionRoutes(app: self)
         KituraOpenAPI.addEndpoints(to: router)
