@@ -2,6 +2,10 @@ import Application
 import LoggerAPI
 import HeliumLogger
 
+import KituraContracts
+import SwiftKueryORM
+import SwiftKueryMySQL
+
 HeliumLogger.use(.debug)
 
 do {

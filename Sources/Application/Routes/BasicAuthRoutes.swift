@@ -15,9 +15,10 @@ func initializeBasicAuthRoutes(app: App) {
 
 // MARK: - Basic Authentication
 extension App {
-    func basicAuthLogin(user: BasicAuth, respondWith: ([Object]?, RequestError?) -> Void) {
+    func basicAuthLogin(user: BasicAuth, respondWith: (User?, RequestError?) -> Void) {
         Log.info("User \(user.id) logged in")
-        let objects = [Object(id: 10, userId: 10, url: URL(string: "https://apple.com")!, date: Date())]
-        respondWith(objects, nil)
+//        let objects = [Object(id: 10, userId: 10, url: URL(string: "https://apple.com")!, date: Date())]
+        let user = User(id: nil, username: user.id, password: nil, salt: nil, isAdmin: user.isAdmin)
+        respondWith(user, nil)
     }
 }
